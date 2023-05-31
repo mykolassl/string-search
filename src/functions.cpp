@@ -50,7 +50,7 @@ void write_file(const string& file_name, map<string, int>& word_count, const map
     file << endl << "Zodziai ir kuriose eilutese jie pasikartojo: " << endl << endl;
 
     for (const auto& [k, v] : word_ref) {
-        if (word_count[k] <= 1) continue;
+        if (v.size() <= 1) continue;
 
         file << std::left << setw(30) << k;
 
@@ -109,7 +109,7 @@ void read_file(const string& file_name) {
                 }
             }
 
-            if (word.find_first_of(".,/|-():–—°=[]{}%&•\"") != string::npos || word.empty()) continue;
+            if (word.find_first_of(".,/|-():–—°=[]{}%&><•\"") != string::npos || word.empty()) continue;
 
             if (!word_count[word]) word_count[word] = 0;
             word_count[word]++;
