@@ -22,3 +22,6 @@ using std::stringstream;
 using std::istringstream;
 using std::getline;
 using std::exception;
+using std::transform;
+using std::left;
+using std::quoted;

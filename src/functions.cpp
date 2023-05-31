@@ -10,7 +10,7 @@ void update_domains_list() {
     while (!fd.eof()) {
         string ending;
         fd >> ending;
-        std::transform(ending.begin(), ending.end(), ending.begin(), [](char& c) { return tolower(c); });
+        transform(ending.begin(), ending.end(), ending.begin(), [](char& c) { return tolower(c); });
 
         domains_temp.insert(ending);
     }
@@ -19,7 +19,7 @@ void update_domains_list() {
 
     ofstream fr("domains.txt");
 
-    for (const auto& c : domains_temp) fr << std::quoted(c) << ", ";
+    for (const auto& c : domains_temp) fr << quoted(c) << ", ";
 
     fr.close();
 }
@@ -36,15 +36,15 @@ bool is_word_url(const string& word) {
     return false;
 }
 
-void write_file(const string& file_name, map<string, int>& word_count, const map<string, set<size_t>>& word_ref, const set<string>& urls) {
+void write_file(const string& file_name, const map<string, set<size_t>>& word_ref, const set<string>& urls) {
     ofstream file("output.txt");
 
     file << "Zodziai ir kiek kartu jie pasikartojo: " << endl << endl;
 
-    for (const auto& [k, v] : word_count) {
-        if (v <= 1) continue;
+    for (const auto& [k, v] : word_ref) {
+        if (v.size() <= 1) continue;
 
-        file << std::left << setw(30) << k << setw(30) << v << endl;
+        file << left << setw(30) << k << setw(30) << v.size() << endl;
     }
 
     file << endl << "Zodziai ir kuriose eilutese jie pasikartojo: " << endl << endl;
@@ -52,7 +52,7 @@ void write_file(const string& file_name, map<string, int>& word_count, const map
     for (const auto& [k, v] : word_ref) {
         if (v.size() <= 1) continue;
 
-        file << std::left << setw(30) << k;
+        file << left << setw(30) << k;
 
         for (auto& row_num : v)
             file << row_num << " ";
@@ -69,7 +69,6 @@ void write_file(const string& file_name, map<string, int>& word_count, const map
 }
 
 void read_file(const string& file_name) {
-    map<string, int> word_count;
     map<string, set<size_t>> word_ref;
     set<string> urls;
 
@@ -80,7 +79,7 @@ void read_file(const string& file_name) {
     try {
         ifstream file;
         file.exceptions(ifstream::failbit | ifstream::badbit);
-        file.open("text.txt");
+        file.open(file_name);
 
         stream << file.rdbuf();
 
@@ -111,12 +110,9 @@ void read_file(const string& file_name) {
 
             if (word.find_first_of(".,/|-():–—°=[]{}%&><•\"") != string::npos || word.empty()) continue;
 
-            if (!word_count[word]) word_count[word] = 0;
-            word_count[word]++;
-
             word_ref[word].insert(row_count);
         }
     }
 
-    write_file("output.txt", word_count, word_ref, urls);
+    write_file("output.txt", word_ref, urls);
 }
