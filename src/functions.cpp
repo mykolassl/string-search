@@ -101,7 +101,7 @@ void read_file(const string& file_name) {
             if (word.find('.') != string::npos) {
                 bool is_url = is_word_url(word);
                 if (is_url) {
-                    if (word.ends_with('.') || word.ends_with('"')) word = word.substr(0, word.length() - 1);
+                    if (word.ends_with('.') || word.ends_with('"') || word.ends_with(',')) word = word.substr(0, word.length() - 1);
                     if (word.starts_with('"')) word = word.substr(1, word.length() - 1);
 
                     urls.insert(word);
