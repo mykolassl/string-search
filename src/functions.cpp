@@ -121,7 +121,7 @@ void read_file(const string& file_name) {
             size_t bad_char_pos;
 
             do {
-                bad_char_pos = word.find_first_of(L". , : – — ( ) / \" ");
+                bad_char_pos = word.find_first_of(L". , : – — ( ) / • \" ");
                 if (bad_char_pos != wstring::npos) {
                     word.erase(bad_char_pos, 1);
                 }
