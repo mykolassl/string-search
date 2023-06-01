@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
+#include <codecvt>
 
 #include <map>
 #include <vector>
@@ -25,3 +26,11 @@ using std::exception;
 using std::transform;
 using std::left;
 using std::quoted;
+using std::wcout;
+using std::wifstream;
+using std::wofstream;
+using std::wstringstream;
+using std::wistringstream;
+using std::wstring;
+using std::wstring_convert;
+using std::codecvt_utf8_utf16;
